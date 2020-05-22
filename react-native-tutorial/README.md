@@ -5,5 +5,6 @@ $ npm install
 
 And run with:
 ```
-$ npm start
+$ npx react-native start
+$ npx react-native run-android
 ```
