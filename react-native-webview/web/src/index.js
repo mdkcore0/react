@@ -8,7 +8,8 @@ window.addEventListener("message", message => {
     // NOTE: I prefer to use ref instead of global variables, see other
     // 'NOTE's in the code to test using 'window' instead of 'siteRef'.
     //window.site.setSensorData(message.data);
-    siteRef.current.setSensorValue(message.data);
+    let data = message.data;
+    siteRef.current.setSensorValues(data);
 });
 
 window.webViewBridge = {
@@ -30,18 +31,23 @@ class Site extends React.Component {
         //window.site = this;
         this.state = {
             acc: 0,
-            sensorValue: 0,
+            sensorXValue: 0,
+            sensorYValue: 0,
+            sensorZValue: 0,
             buttonEnabled: false,
         };
 
         this.counter = 0;
     }
 
-    setSensorValue(value) {
+    setSensorValues(data) {
         this.counter++;
+
         this.setState((state) => ({
-            acc: state.acc + value,
-            sensorValue: value,
+            acc: state.acc + data['x'],
+            sensorXValue: data['x'],
+            sensorYValue: data['y'],
+            sensorZValue: data['z'],
         }));
 
         if (this.counter >= 30) {
@@ -57,13 +63,16 @@ class Site extends React.Component {
     }
 
     render() {
-        let desc = "Send accumulated sensor value";
+        let desc = "Send accumulated X axis sensor value";
 
         return (
             <div>
                 <div>
-                    <div>Current accelerometer value (x axis only):</div>
-                    <div>{this.counter}: {this.state.sensorValue}</div>
+                    <div>Current accelerometer values:</div>
+                    <div>{this.counter}:</div>
+                    <div style={{marginLeft: 15}}>x: {this.state.sensorXValue}</div>
+                    <div style={{marginLeft: 15}}>y: {this.state.sensorYValue}</div>
+                    <div style={{marginLeft: 15}}>z: {this.state.sensorZValue}</div>
                     <button
                         style={{
                             marginTop: 20,

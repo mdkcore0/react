@@ -18,14 +18,15 @@ export default class Test extends Component {
         // read sensor data each 1s
         setUpdateIntervalForType(SensorTypes.accelerometer, 1000);
 
-        const subscription = accelerometer.subscribe(({x}) => {
+        const subscription = accelerometer.subscribe(({x, y, z}) => {
             // keep track of x axis only
             this.setState(state => ({
                 x: state.x
             }));
 
-            // send message to the site
-            this.sendWebViewMessage(x);
+            // send all axis to the site
+            data = {'x': x, 'y': y, 'z': z};
+            this.sendWebViewMessage(data);
         });
 
         this.setState({subscription});
