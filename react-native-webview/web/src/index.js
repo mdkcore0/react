@@ -7,9 +7,9 @@ window.addEventListener("message", message => {
 
     // NOTE: I prefer to use ref instead of global variables, see other
     // 'NOTE's in the code to test using 'window' instead of 'siteRef'.
-    //window.site.setSensorData(message.data);
     let data = message.data;
     siteRef.current.setSensorValues(data);
+    //window.site.setSensorValues(data);
 });
 
 window.webViewBridge = {
